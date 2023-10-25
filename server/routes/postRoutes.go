@@ -1,6 +1,9 @@
 package routes
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/yigitataben/opin.io/server/controllers"
+	"fmt"
 )
+
+func main() {
+	fmt.Println("Hello, World!")
+}
