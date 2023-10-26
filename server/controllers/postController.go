@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-var NewPost models.Post
+var _ models.Post
 
 func GetPost(w http.ResponseWriter, r *http.Request) {
 	newPosts := models.GetAllPosts()
