@@ -22,7 +22,7 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 
 func GetPostByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	postID := vars["posID"]
+	postID := vars["postID"]
 	ID, err := strconv.ParseInt(postID, 0, 0)
 	if err != nil {
 		fmt.Println("Error while parsing... (ERRCD: x01)")
