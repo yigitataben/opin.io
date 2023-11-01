@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="opinionDB@localhost" uuid="0307f4b6-e63d-460d-9ce3-e7b3aa716fc8">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="Opinion Database" uuid="ad62466a-7fa4-47f1-acae-42a7bf9782c9">
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/opinionDB</jdbc-url>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\yigit\Playground\opin.io\server\Opinion Database.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
