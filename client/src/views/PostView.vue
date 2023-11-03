@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
     categories: [ 'General Discussion and Helping',
@@ -111,7 +113,7 @@ export default {
   methods: {
     titleCheck () {
       this.errorMessages = this.title
-          ? `Hey! I'm required`
+          ? `Hey! I'm required...`
           : ''
 
       return true
@@ -124,15 +126,23 @@ export default {
         this.$refs[f].reset()
       })
     },
-    submit () {
-      this.formHasErrors = false
+    async submit() {
+      const formData = {
+        PostTitle: this.title,
+        PostBody: this.post,
+        PostCategory: this.category
+      };
 
-      Object.keys(this.form).forEach(f => {
-        if (!this.form[f]) this.formHasErrors = true
+      try {
+        const response = await axios.post('http://127.0.0.1:8080/zurna', formData);
+        console.log('Data sent successfully.', response.data);
 
-        this.$refs[f].validate(true)
-      })
-    },
-  },
+        this.resetForm();
+      } catch (error) {
+        console.error('Data sending error.', error);
+        this.formHasErrors = true;
+      }
+    }
+  }
 }
 </script>
