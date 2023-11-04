@@ -134,7 +134,7 @@ export default {
       };
 
       try {
-        const response = await axios.post('http://127.0.0.1:8080/zurna', formData);
+        const response = await axios.post('http://127.0.0.1:8080/post', formData);
         console.log('Data sent successfully.', response.data);
 
         this.resetForm();

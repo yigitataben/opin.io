@@ -16,7 +16,7 @@ type DBInstance struct {
 var Database DBInstance
 
 func ConnectDB() {
-	db, err := gorm.Open(sqlite.Open("C:/Users/yigit/Playground/opin.io/server/Opinion Database.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("C:/Users/yigit/Playground/opin.io/server/OpinionDatabase.db"), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Failed to connect to the database! \n", err.Error())

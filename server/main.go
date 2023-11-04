@@ -10,17 +10,17 @@ import (
 
 func setupRoutes(app *fiber.App) {
 	// User endpoints:
-	app.Post("/api/users", routes.CreateUser)
-	app.Get("/api/users", routes.GetAllUsers)
-	app.Get("/api/users/:id", routes.GetUserByID)
-	app.Put("/api/users/:id", routes.UpdateUser)
-	app.Delete("/api/users/:id", routes.DeleteUser)
+	app.Post("/user", routes.CreateUser)
+	app.Get("/user", routes.GetAllUsers)
+	app.Get("/user/:id", routes.GetUserByID)
+	app.Put("/user/:id", routes.UpdateUser)
+	app.Delete("/user/:id", routes.DeleteUser)
 	// Post endpoints:
-	app.Post("/zurna", routes.CreatePost)
-	app.Get("/api/posts", routes.GetAllPosts)
-	app.Get("/api/posts/:id", routes.GetPostByID)
-	app.Put("/api/posts/:id", routes.UpdatePost)
-	app.Delete("/api/posts/:id", routes.DeletePost)
+	app.Post("/post", routes.CreatePost)
+	app.Get("/post", routes.GetAllPosts)
+	app.Get("/post/:id", routes.GetPostByID)
+	app.Put("/post/:id", routes.UpdatePost)
+	app.Delete("/post/:id", routes.DeletePost)
 }
 
 func main() {
