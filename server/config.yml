@@ -1,0 +1,14 @@
+# Database settings
+database:
+  type: sqlite
+  file_path: "C:/Users/yigit/Playground/opin.io/server/OpinionDatabase.db"
+
+# Server settings
+server:
+  port: 8080
+  base_url: "http://localhost"
+
+# Logging settings
+logging:
+  level: error
+  file_path: "logs/application.log"

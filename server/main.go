@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
+	"server/config"
 	"server/database"
 	"server/routes"
 )
@@ -21,9 +22,15 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/post/:id", routes.GetPostByID)
 	app.Put("/post/:id", routes.UpdatePost)
 	app.Delete("/post/:id", routes.DeletePost)
+	//TODO: The categories in PostView.vue will be transferred to the database.
 }
 
 func main() {
+	_, err := config.LoadConfigData()
+	if err != nil {
+		return
+	}
+
 	database.ConnectDB()
 	app := fiber.New()
 

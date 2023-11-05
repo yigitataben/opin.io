@@ -7,12 +7,20 @@ import (
 )
 
 type Config struct {
-	//TODO: Add whole infos here.
-	DB   string `mapstructure:"db"`
-	Port int    `mapstructure:"port"`
-}
+	Database struct {
+		Type     string `mapstructure:"type"`
+		FilePath string `mapstructure:"file_path"`
+	} `mapstructure:"database"`
 
-type SQLite struct {
+	Server struct {
+		Port    int    `mapstructure:"port"`
+		BaseURL string `mapstructure:"base_url"`
+	} `mapstructure:"server"`
+
+	Logging struct {
+		Level    string `mapstructure:"level"`
+		FilePath string `mapstructure:"file_path"`
+	} `mapstructure:"logging"`
 }
 
 func LoadConfigData() (Config, error) {
