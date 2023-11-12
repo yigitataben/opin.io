@@ -4,6 +4,7 @@ import "./VPicker.css";
 
 // Components
 import { VPickerTitle } from "./VPickerTitle.mjs";
+import { VDefaultsProvider } from "../../components/VDefaultsProvider/VDefaultsProvider.mjs";
 import { makeVSheetProps, VSheet } from "../../components/VSheet/VSheet.mjs"; // Composables
 import { useBackgroundColor } from "../../composables/color.mjs"; // Utilities
 import { toRef } from 'vue';
@@ -12,6 +13,7 @@ export const makeVPickerProps = propsFactory({
   bgColor: String,
   landscape: Boolean,
   title: String,
+  hideHeader: Boolean,
   ...makeVSheetProps()
 }, 'VPicker');
 export const VPicker = genericComponent()({
@@ -26,7 +28,7 @@ export const VPicker = genericComponent()({
       backgroundColorStyles
     } = useBackgroundColor(toRef(props, 'color'));
     useRender(() => {
-      const [sheetProps] = VSheet.filterProps(props);
+      const sheetProps = VSheet.filterProps(props);
       const hasTitle = !!(props.title || slots.title);
       return _createVNode(VSheet, _mergeProps(sheetProps, {
         "color": props.bgColor,
@@ -36,7 +38,8 @@ export const VPicker = genericComponent()({
         }, props.class],
         "style": props.style
       }), {
-        default: () => [_createVNode("div", {
+        default: () => [!props.hideHeader && _createVNode("div", {
+          "key": "header",
           "class": [backgroundColorClasses.value],
           "style": [backgroundColorStyles.value]
         }, [hasTitle && _createVNode(VPickerTitle, {
@@ -47,9 +50,18 @@ export const VPicker = genericComponent()({
           "class": "v-picker__header"
         }, [slots.header()])]), _createVNode("div", {
           "class": "v-picker__body"
-        }, [slots.default?.()]), slots.actions?.()[0]?.children && _createVNode("div", {
-          "class": "v-picker__actions"
-        }, [slots.actions()])]
+        }, [slots.default?.()]), slots.actions && _createVNode(VDefaultsProvider, {
+          "defaults": {
+            VBtn: {
+              slim: true,
+              variant: 'text'
+            }
+          }
+        }, {
+          default: () => [_createVNode("div", {
+            "class": "v-picker__actions"
+          }, [slots.actions()])]
+        })]
       });
     });
     return {};

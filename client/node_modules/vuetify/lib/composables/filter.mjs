@@ -74,7 +74,10 @@ export function useFilter(props, items, query, options) {
     const _query = typeof query === 'function' ? query() : unref(query);
     const strQuery = typeof _query !== 'string' && typeof _query !== 'number' ? '' : String(_query);
     const results = filterItems(transformedItems.value, strQuery, {
-      customKeyFilter: props.customKeyFilter,
+      customKeyFilter: {
+        ...props.customKeyFilter,
+        ...unref(options?.customKeyFilter)
+      },
       default: props.customFilter,
       filterKeys: props.filterKeys,
       filterMode: props.filterMode,

@@ -79,7 +79,7 @@ export const VTabs = genericComponent()({
       }
     });
     useRender(() => {
-      const [slideGroupProps] = VSlideGroup.filterProps(props);
+      const slideGroupProps = VSlideGroup.filterProps(props);
       return _createVNode(VSlideGroup, _mergeProps(slideGroupProps, {
         "modelValue": model.value,
         "onUpdate:modelValue": $event => model.value = $event,

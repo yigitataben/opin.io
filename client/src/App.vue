@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import HomeView from 'C:/Users/yigit/Playground/opin.io/client/src/views/template/HomeView.vue';
+import HomeView from '@/views/template/HomeView.vue';
 
 export default {
   components: {

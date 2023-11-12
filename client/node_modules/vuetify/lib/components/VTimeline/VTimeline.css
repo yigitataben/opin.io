@@ -34,7 +34,7 @@
 }
 
 .v-timeline--vertical.v-timeline {
-  grid-row-gap: 24px;
+  row-gap: 24px;
   height: 100%;
 }
 .v-timeline--vertical.v-timeline .v-timeline-item:first-child .v-timeline-divider, .v-timeline--vertical.v-timeline .v-timeline-item:first-child .v-timeline-item__body, .v-timeline--vertical.v-timeline .v-timeline-item:first-child .v-timeline-item__opposite {
@@ -89,15 +89,8 @@
 .v-timeline--horizontal .v-timeline-divider__before {
   height: var(--v-timeline-line-thickness);
   width: calc(var(--v-timeline-line-size-base) + 12px - var(--v-timeline-line-inset));
-}
-.v-locale--is-ltr.v-timeline--horizontal .v-timeline-divider__before, .v-locale--is-ltr .v-timeline--horizontal .v-timeline-divider__before {
-  left: -12px;
-  right: initial;
-}
-
-.v-locale--is-rtl.v-timeline--horizontal .v-timeline-divider__before, .v-locale--is-rtl .v-timeline--horizontal .v-timeline-divider__before {
-  right: -12px;
-  left: initial;
+  inset-inline-start: -12px;
+  inset-inline-end: initial;
 }
 
 .v-timeline--vertical .v-timeline-divider__before {
@@ -113,15 +106,8 @@
 .v-timeline--horizontal .v-timeline-divider__after {
   height: var(--v-timeline-line-thickness);
   width: calc(var(--v-timeline-line-size-base) + 12px - var(--v-timeline-line-inset));
-}
-.v-locale--is-ltr.v-timeline--horizontal .v-timeline-divider__after, .v-locale--is-ltr .v-timeline--horizontal .v-timeline-divider__after {
-  right: -12px;
-  left: initial;
-}
-
-.v-locale--is-rtl.v-timeline--horizontal .v-timeline-divider__after, .v-locale--is-rtl .v-timeline--horizontal .v-timeline-divider__after {
-  left: -12px;
-  right: initial;
+  inset-inline-end: -12px;
+  inset-inline-start: initial;
 }
 
 .v-timeline--vertical .v-timeline-divider__after {
@@ -137,15 +123,8 @@
 
 .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__before {
   width: calc(var(--v-timeline-line-size-base) + 12px - var(--v-timeline-line-inset));
-}
-.v-locale--is-ltr.v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__before, .v-locale--is-ltr .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__before {
-  left: 0;
-  right: initial;
-}
-
-.v-locale--is-rtl.v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__before, .v-locale--is-rtl .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__before {
-  right: 0;
-  left: initial;
+  inset-inline-start: 0;
+  inset-inline-end: initial;
 }
 
 .v-timeline--vertical .v-timeline-item:first-child .v-timeline-divider__after {
@@ -154,15 +133,8 @@
 
 .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__after {
   width: calc(var(--v-timeline-line-size-base) - var(--v-timeline-line-inset) + var(--v-timeline-line-size-offset));
-}
-.v-locale--is-ltr.v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__after, .v-locale--is-ltr .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__after {
-  right: -12px;
-  left: initial;
-}
-
-.v-locale--is-rtl.v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__after, .v-locale--is-rtl .v-timeline--horizontal .v-timeline-item:first-child .v-timeline-divider__after {
-  left: -12px;
-  right: initial;
+  inset-inline-end: -12px;
+  inset-inline-start: initial;
 }
 
 .v-timeline--vertical .v-timeline-item:last-child .v-timeline-divider__before {
@@ -180,15 +152,8 @@
 
 .v-timeline--horizontal .v-timeline-item:last-child .v-timeline-divider__after {
   width: calc(var(--v-timeline-line-size-base) + 12px - var(--v-timeline-line-inset));
-}
-.v-locale--is-ltr.v-timeline--horizontal .v-timeline-item:last-child .v-timeline-divider__after, .v-locale--is-ltr .v-timeline--horizontal .v-timeline-item:last-child .v-timeline-divider__after {
-  right: 0;
-  left: initial;
-}
-
-.v-locale--is-rtl.v-timeline--horizontal .v-timeline-item:last-child .v-timeline-divider__after, .v-locale--is-rtl .v-timeline--horizontal .v-timeline-item:last-child .v-timeline-divider__after {
-  left: 0;
-  right: initial;
+  inset-inline-end: 0;
+  inset-inline-start: initial;
 }
 
 .v-timeline--vertical .v-timeline-item:only-child .v-timeline-divider__after {

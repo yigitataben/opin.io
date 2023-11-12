@@ -1,6 +1,6 @@
 // Utilities
 import { computed } from 'vue';
-import { deepEqual, getPropertyFromItem, pick, propsFactory } from "../util/index.mjs"; // Types
+import { deepEqual, getPropertyFromItem, omit, propsFactory } from "../util/index.mjs"; // Types
 // Composables
 export const makeItemsProps = propsFactory({
   items: {
@@ -33,7 +33,7 @@ export function transformItem(props, item) {
   const title = getPropertyFromItem(item, props.itemTitle, item);
   const value = getPropertyFromItem(item, props.itemValue, title);
   const children = getPropertyFromItem(item, props.itemChildren);
-  const itemProps = props.itemProps === true ? typeof item === 'object' && item != null && !Array.isArray(item) ? 'children' in item ? pick(item, ['children'])[1] : item : undefined : getPropertyFromItem(item, props.itemProps);
+  const itemProps = props.itemProps === true ? typeof item === 'object' && item != null && !Array.isArray(item) ? 'children' in item ? omit(item, ['children']) : item : undefined : getPropertyFromItem(item, props.itemProps);
   const _props = {
     title,
     value,

@@ -48,6 +48,7 @@ export const makeVListItemProps = propsFactory({
     type: [Boolean, Object],
     default: true
   },
+  slim: Boolean,
   subtitle: [String, Number, Boolean],
   title: [String, Number, Boolean],
   value: null,
@@ -173,6 +174,7 @@ export const VListItem = genericComponent()({
           'v-list-item--link': isClickable.value,
           'v-list-item--nav': props.nav,
           'v-list-item--prepend': !hasPrepend && list?.hasPrepend.value,
+          'v-list-item--slim': props.slim,
           [`${props.activeClass}`]: props.activeClass && isActive.value
         }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, variantClasses.value, props.class],
         "style": [colorStyles.value, dimensionStyles.value, props.style],

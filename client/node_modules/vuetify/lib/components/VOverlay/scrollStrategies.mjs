@@ -39,11 +39,11 @@ function closeScrollStrategy(data) {
   function onScroll(e) {
     data.isActive.value = false;
   }
-  bindScroll(data.activatorEl.value ?? data.contentEl.value, onScroll);
+  bindScroll(data.targetEl.value ?? data.contentEl.value, onScroll);
 }
 function blockScrollStrategy(data, props) {
   const offsetParent = data.root.value?.offsetParent;
-  const scrollElements = [...new Set([...getScrollParents(data.activatorEl.value, props.contained ? offsetParent : undefined), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : undefined)])].filter(el => !el.classList.contains('v-overlay-scroll-blocked'));
+  const scrollElements = [...new Set([...getScrollParents(data.targetEl.value, props.contained ? offsetParent : undefined), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : undefined)])].filter(el => !el.classList.contains('v-overlay-scroll-blocked'));
   const scrollbarWidth = window.innerWidth - document.documentElement.offsetWidth;
   const scrollableParent = (el => hasScrollbar(el) && el)(offsetParent || document.documentElement);
   if (scrollableParent) {
@@ -87,7 +87,7 @@ function repositionScrollStrategy(data, props, scope) {
   }
   ric = (typeof requestIdleCallback === 'undefined' ? cb => cb() : requestIdleCallback)(() => {
     scope.run(() => {
-      bindScroll(data.activatorEl.value ?? data.contentEl.value, e => {
+      bindScroll(data.targetEl.value ?? data.contentEl.value, e => {
         if (slow) {
           // If the position calculation is slow,
           // defer updates until scrolling is finished.

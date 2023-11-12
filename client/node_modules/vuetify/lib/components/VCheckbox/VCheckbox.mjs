@@ -36,8 +36,8 @@ export const VCheckbox = genericComponent()({
     const id = computed(() => props.id || `checkbox-${uid}`);
     useRender(() => {
       const [rootAttrs, controlAttrs] = filterInputAttrs(attrs);
-      const [inputProps, _1] = VInput.filterProps(props);
-      const [checkboxProps, _2] = VCheckboxBtn.filterProps(props);
+      const inputProps = VInput.filterProps(props);
+      const checkboxProps = VCheckboxBtn.filterProps(props);
       return _createVNode(VInput, _mergeProps({
         "class": ['v-checkbox', props.class]
       }, rootAttrs, inputProps, {

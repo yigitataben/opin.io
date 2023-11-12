@@ -33,7 +33,9 @@ export const VVirtualScroll = genericComponent()({
     } = useDimension(props);
     const {
       containerRef,
+      markerRef,
       handleScroll,
+      handleScrollend,
       handleItemResize,
       scrollToIndex,
       paddingTop,
@@ -41,13 +43,26 @@ export const VVirtualScroll = genericComponent()({
       computedItems
     } = useVirtual(props, toRef(props, 'items'));
     useToggleScope(() => props.renderless, () => {
+      function handleListeners() {
+        let add = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        const method = add ? 'addEventListener' : 'removeEventListener';
+        if (containerRef.value === document.documentElement) {
+          document[method]('scroll', handleScroll, {
+            passive: true
+          });
+          document[method]('scrollend', handleScrollend);
+        } else {
+          containerRef.value?.[method]('scroll', handleScroll, {
+            passive: true
+          });
+          containerRef.value?.[method]('scrollend', handleScrollend);
+        }
+      }
       onMounted(() => {
         containerRef.value = getScrollParent(vm.vnode.el, true);
-        containerRef.value?.addEventListener('scroll', handleScroll);
+        handleListeners(true);
       });
-      onScopeDispose(() => {
-        containerRef.value?.removeEventListener('scroll', handleScroll);
-      });
+      onScopeDispose(handleListeners);
     });
     useRender(() => {
       const children = computedItems.value.map(item => _createVNode(VVirtualScrollItem, {
@@ -62,6 +77,7 @@ export const VVirtualScroll = genericComponent()({
         })
       }));
       return props.renderless ? _createVNode(_Fragment, null, [_createVNode("div", {
+        "ref": markerRef,
         "class": "v-virtual-scroll__spacer",
         "style": {
           paddingTop: convertToUnit(paddingTop.value)
@@ -74,9 +90,11 @@ export const VVirtualScroll = genericComponent()({
       }, null)]) : _createVNode("div", {
         "ref": containerRef,
         "class": ['v-virtual-scroll', props.class],
-        "onScroll": handleScroll,
+        "onScrollPassive": handleScroll,
+        "onScrollend": handleScrollend,
         "style": [dimensionStyles.value, props.style]
       }, [_createVNode("div", {
+        "ref": markerRef,
         "class": "v-virtual-scroll__container",
         "style": {
           paddingTop: convertToUnit(paddingTop.value),

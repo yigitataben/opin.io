@@ -112,11 +112,11 @@ export const VTextField = genericComponent()({
       const hasCounter = !!(slots.counter || props.counter !== false && props.counter != null);
       const hasDetails = !!(hasCounter || slots.details);
       const [rootAttrs, inputAttrs] = filterInputAttrs(attrs);
-      const [{
+      const {
         modelValue: _,
         ...inputProps
-      }] = VInput.filterProps(props);
-      const [fieldProps] = filterFieldProps(props);
+      } = VInput.filterProps(props);
+      const fieldProps = filterFieldProps(props);
       return _createVNode(VInput, _mergeProps({
         "ref": vInputRef,
         "modelValue": model.value,
@@ -124,7 +124,7 @@ export const VTextField = genericComponent()({
         "class": ['v-text-field', {
           'v-text-field--prefixed': props.prefix,
           'v-text-field--suffixed': props.suffix,
-          'v-text-field--plain-underlined': ['plain', 'underlined'].includes(props.variant)
+          'v-input--plain-underlined': isPlainOrUnderlined.value
         }, props.class],
         "style": props.style
       }, rootAttrs, inputProps, {

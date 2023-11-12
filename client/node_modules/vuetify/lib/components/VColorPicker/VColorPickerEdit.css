@@ -10,14 +10,9 @@
   justify-content: center;
   text-align: center;
 }
-.v-locale--is-ltr.v-color-picker-edit__input:not(:last-child), .v-locale--is-ltr .v-color-picker-edit__input:not(:last-child) {
-  margin-right: 8px;
+.v-color-picker-edit__input:not(:last-child) {
+  margin-inline-end: 8px;
 }
-
-.v-locale--is-rtl.v-color-picker-edit__input:not(:last-child), .v-locale--is-rtl .v-color-picker-edit__input:not(:last-child) {
-  margin-left: 8px;
-}
-
 .v-color-picker-edit__input input {
   border-radius: 4px;
   margin-bottom: 8px;

@@ -9,6 +9,5 @@
   margin-top: 8px;
 }
 .v-radio-group .v-input__details {
-  padding-inline-start: 16px;
-  padding-inline-end: 16px;
+  padding-inline: 16px;
 }

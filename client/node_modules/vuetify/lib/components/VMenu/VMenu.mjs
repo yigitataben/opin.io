@@ -127,7 +127,7 @@ export const VMenu = genericComponent()({
       onKeydown: onActivatorKeydown
     }, props.activatorProps));
     useRender(() => {
-      const [overlayProps] = VOverlay.filterProps(props);
+      const overlayProps = VOverlay.filterProps(props);
       return _createVNode(VOverlay, _mergeProps({
         "ref": overlay,
         "class": ['v-menu', props.class],

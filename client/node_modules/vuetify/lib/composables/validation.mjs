@@ -46,7 +46,7 @@ export function useValidation(props) {
   const isDisabled = computed(() => !!(props.disabled ?? form?.isDisabled.value));
   const isReadonly = computed(() => !!(props.readonly ?? form?.isReadonly.value));
   const errorMessages = computed(() => {
-    return props.errorMessages?.length ? wrapInArray(props.errorMessages).slice(0, Math.max(0, +props.maxErrors)) : internalErrorMessages.value;
+    return props.errorMessages?.length ? wrapInArray(props.errorMessages).concat(internalErrorMessages.value).slice(0, Math.max(0, +props.maxErrors)) : internalErrorMessages.value;
   });
   const validateOn = computed(() => {
     let value = (props.validateOn ?? form?.validateOn.value) || 'input';

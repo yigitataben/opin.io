@@ -53,7 +53,7 @@ export const VListChildren = genericComponent()({
           item
         }) : undefined
       };
-      const [listGroupProps, _1] = VListGroup.filterProps(itemProps);
+      const listGroupProps = VListGroup.filterProps(itemProps);
       return children ? _createVNode(VListGroup, _mergeProps({
         "value": itemProps?.value
       }, listGroupProps), {
