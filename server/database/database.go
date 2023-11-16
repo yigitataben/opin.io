@@ -40,3 +40,13 @@ func ConnectDB() {
 
 	Database = DBInstance{DB: db}
 }
+
+func GetCategories() ([]models.Category, error) {
+	var categories []models.Category
+
+	if err := Database.DB.Find(&categories).Error; err != nil {
+		return nil, err
+	}
+
+	return categories, nil
+}

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import HomeView from '@/views/template/HomeView.vue';
+import HomeView from '@/views/template/TemplateView.vue';
 
 export default {
   components: {

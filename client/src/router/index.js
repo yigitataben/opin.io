@@ -5,13 +5,14 @@ import ExploreView from "@/views/ExploreView.vue";
 import LoginView from "@/views/LoginView.vue";
 import PostView from "@/views/PostView.vue";
 import ProfileView from "@/views/ProfileView.vue";
-import TimelineView from "@/views/TimelineView.vue";
+import ContentView from "@/views/ContentView.vue";
+import CommentsView from "@/views/CommentsView.vue";
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: TimelineView
+    name: 'Content',
+    component: ContentView
   },
   {
     path: '/bookmarks',
@@ -37,6 +38,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/comments',
+    name: 'Comments',
+    component: CommentsView
   }
 ]
 

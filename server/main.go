@@ -22,7 +22,8 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/post/:id", routes.GetPostByID)
 	app.Put("/post/:id", routes.UpdatePost)
 	app.Delete("/post/:id", routes.DeletePost)
-	//TODO: The categories in PostView.vue will be transferred to the database.
+	// Post categories:
+	app.Get("/categories", routes.GetAllCategories)
 }
 
 func main() {

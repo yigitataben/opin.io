@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "@vueform/vueform": "^1.5.8",
     "axios": "^1.6.0",
     "client": "^0.0.1",
     "core-js": "^3.8.3",

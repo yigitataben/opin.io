@@ -1,74 +1,91 @@
 <template>
-  <v-card elevation="0" ref="form">
-    <v-card-text>
+  <v-card
+      max-width="550"
+      class="mx-auto"
+      variant="flat"
+      rounded="xl"
+  >
+    <v-sheet class="pa-4 text-center">
       <v-autocomplete
-          outlined
+          chips
           ref="category"
           v-model="category"
-          :rules="[() => !!category || 'This field is required']"
+          :rules="[() => !!category]"
           :items="categories"
-          label="Category"
-          placeholder="Select..."
           required
+          variant="outlined"
+          rounded="xl"
       ></v-autocomplete>
-      <v-text-field
-          outlined
-          ref="title"
-          v-model="title"
-          :rules="[
-              () => !!title || 'This field is required',
-              () => !!title && title.length <= 25 || 'Title must be less than 25 characters',
-              titleCheck
-            ]"
-          label="Title"
-          counter="25"
-          required
-      ></v-text-field>
+
       <v-textarea
+          variant="outlined"
           auto-grow
-          outlined
+          full-width
+          rows="1"
+          hide-details
+          rounded="xl"
           ref="post"
           v-model="post"
-          :rules="[() => !!post || 'This field is required', titleCheck]"
-          label="Post"
+          :rules="[() => !!post, postCheck]"
           required
       ></v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn>
-        Cancel
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-slide-x-reverse-transition>
-        <v-tooltip
-            v-if="formHasErrors"
-            left
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                icon
-                class="my-0"
-                v-bind="attrs"
-                @click="resetForm"
-                v-on="on"
-            >
-              <v-icon>mdi-refresh</v-icon>
-            </v-btn>
-          </template>
-          <span>Refresh form</span>
-        </v-tooltip>
-      </v-slide-x-reverse-transition>
-      <v-btn
-          color="primary"
-          @click="submit"
+    </v-sheet>
+
+    <div class="d-flex justify-space-between pa-4 pb-0">
+      <v-btn-toggle
+          variant="outlined"
+          divided="true"
+          rounded="xl"
       >
-        Submit
-      </v-btn>
-    </v-card-actions>
+        <v-btn>
+          <v-icon icon="mdi-image"></v-icon>
+        </v-btn>
+
+        <v-btn>
+          <v-icon icon="mdi-gif"></v-icon>
+        </v-btn>
+
+        <v-btn>
+          <v-icon icon="mdi-sticker-emoji"></v-icon>
+        </v-btn>
+      </v-btn-toggle>
+
+      <v-btn-toggle
+          multiple="true"
+          variant="outlined"
+          divided="true"
+          rounded="xl"
+          justify="center"
+      >
+        <v-btn>
+          <v-icon icon="mdi-format-italic"></v-icon>
+        </v-btn>
+
+        <v-btn>
+          <v-icon icon="mdi-format-bold"></v-icon>
+        </v-btn>
+
+        <v-btn>
+          <v-icon icon="mdi-format-underline"></v-icon>
+        </v-btn>
+      </v-btn-toggle>
+
+      <v-btn-toggle
+          variant="outlined"
+          rounded="xl"
+          justify="center"
+          color="success"
+          @click="share"
+      >
+        <v-btn>
+          <v-icon icon="mdi-share"></v-icon>
+        </v-btn>
+      </v-btn-toggle>
+    </div>
   </v-card>
 </template>
-
 <script>
+
 import axios from "axios";
 
 export default {
@@ -94,7 +111,6 @@ export default {
       'Web Development',
       'Mobile Application Development' ],
     errorMessages: '',
-    title: null,
     post: null,
     category: null,
     formHasErrors: false,
@@ -103,16 +119,14 @@ export default {
   computed: {
     form () {
       return {
-        title: this.title,
         post: this.post,
         category: this.category,
       }
     },
   },
-
   methods: {
-    titleCheck () {
-      this.errorMessages = this.title
+    postCheck () {
+      this.errorMessages = this.post
           ? `Hey! I'm required...`
           : ''
 
@@ -126,9 +140,8 @@ export default {
         this.$refs[f].reset()
       })
     },
-    async submit() {
+    async share() {
       const formData = {
-        PostTitle: this.title,
         PostBody: this.post,
         PostCategory: this.category
       };
