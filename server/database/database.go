@@ -33,20 +33,11 @@ func ConnectDB() {
 	db.Logger = logger.Default.LogMode(logger.Info)
 	log.Println("Running migrations...")
 	// TODO: Add migrations.
-	err = db.AutoMigrate(&models.User{}, &models.Post{})
+	err = db.AutoMigrate(&models.User{}, &models.Post{}, &models.Category{})
 	if err != nil {
-		return
+		log.Fatal("Failed to run migrations! \n", err.Error())
+		os.Exit(2)
 	}
 
 	Database = DBInstance{DB: db}
-}
-
-func GetCategories() ([]models.Category, error) {
-	var categories []models.Category
-
-	if err := Database.DB.Find(&categories).Error; err != nil {
-		return nil, err
-	}
-
-	return categories, nil
 }

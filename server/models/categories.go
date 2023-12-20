@@ -1,6 +1,11 @@
 package models
 
+import "time"
+
+// Category struct represents a category entity.
 type Category struct {
-	ID   int    `json:"id" gorm:"primaryKey"`
-	Name string `json:"name"`
+	CategoryID uint      `json:"category_id" gorm:"primaryKey"`
+	CreatedAt  time.Time `json:"created_at"`
+
+	CategoryName string `json:"category_name"`
 }

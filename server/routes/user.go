@@ -5,17 +5,25 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"server/database"
 	"server/models"
+	"time"
 )
 
-type User struct {
-	ID        uint   `json:"id"`
-	UserName  string `json:"UserName"`
-	FirstName string `json:"FirstName"`
-	LastName  string `json:"LastName"`
+type UserResponse struct {
+	ID        uint      `json:"id"`
+	UserName  string    `json:"user_name"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
-func CreateResponseUser(userModel models.User) User {
-	return User{ID: userModel.ID, FirstName: userModel.FirstName, LastName: userModel.LastName, UserName: userModel.UserName}
+func CreateResponseUser(userModel models.User) UserResponse {
+	return UserResponse{
+		ID:        userModel.UserID,
+		UserName:  userModel.UserName,
+		FirstName: userModel.FirstName,
+		LastName:  userModel.LastName,
+		CreatedAt: userModel.CreatedAt,
+	}
 }
 
 func CreateUser(c *fiber.Ctx) error {
@@ -26,28 +34,27 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	database.Database.DB.Create(&user)
-	responseUSer := CreateResponseUser(user)
+	responseUser := CreateResponseUser(user)
 
-	return c.Status(200).JSON(responseUSer)
+	return c.Status(200).JSON(responseUser)
 }
 
 func GetAllUsers(c *fiber.Ctx) error {
 	users := []models.User{}
 
 	database.Database.DB.Find(&users)
-	responseUsers := []User{}
+	responseUsers := make([]UserResponse, len(users))
 
-	for _, user := range users {
-		responseUser := CreateResponseUser(user)
-		responseUsers = append(responseUsers, responseUser)
+	for i, user := range users {
+		responseUsers[i] = CreateResponseUser(user)
 	}
 
 	return c.Status(200).JSON(responseUsers)
 }
 
 func FindUser(id int, user *models.User) error {
-	database.Database.DB.Find(&user, "id = ?", id)
-	if user.ID == 0 {
+	result := database.Database.DB.Find(&user, "user_id = ?", id)
+	if result.RowsAffected == 0 {
 		return errors.New("User does not exist.")
 	}
 	return nil
@@ -81,9 +88,9 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 	type UpdateUser struct {
-		UserName  string `json:"UserName"`
-		FirstName string `json:"FirstName"`
-		LastName  string `json:"LastName"`
+		UserName  string `json:"user_name"`
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
 	}
 	var updateData UpdateUser
 

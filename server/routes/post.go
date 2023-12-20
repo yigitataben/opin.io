@@ -5,17 +5,29 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"server/database"
 	"server/models"
+	"time"
 )
 
-type Post struct {
-	ID           uint   `json:"id"`
-	PostCategory string `json:"PostCategory"`
-	PostTitle    string `json:"PostTitle"`
-	PostBody     string `json:"PostBody"`
+type PostResponse struct {
+	ID           uint      `json:"post_id"`
+	CreatedAt    time.Time `json:"created_at"`
+	Content      string    `json:"content"`
+	UserID       uint      `json:"user_id"`
+	UserName     string    `json:"user_name"`
+	CategoryID   uint      `json:"category_id"`
+	CategoryName string    `json:"category_name"`
 }
 
-func CreateResponsePost(postModel models.Post) Post {
-	return Post{ID: postModel.ID, PostTitle: postModel.PostTitle, PostBody: postModel.PostBody, PostCategory: postModel.PostCategory}
+func CreateResponsePost(postModel models.Post) PostResponse {
+	return PostResponse{
+		ID:           postModel.PostID,
+		CreatedAt:    postModel.CreatedAt,
+		Content:      postModel.Content,
+		UserID:       postModel.UserID,
+		UserName:     postModel.UserName,
+		CategoryID:   postModel.CategoryID,
+		CategoryName: postModel.CategoryName,
+	}
 }
 
 func CreatePost(c *fiber.Ctx) error {
@@ -26,16 +38,16 @@ func CreatePost(c *fiber.Ctx) error {
 	}
 
 	database.Database.DB.Create(&post)
-	responseUSer := CreateResponsePost(post)
+	responsePost := CreateResponsePost(post)
 
-	return c.Status(200).JSON(responseUSer)
+	return c.Status(200).JSON(responsePost)
 }
 
 func GetAllPosts(c *fiber.Ctx) error {
 	posts := []models.Post{}
 
 	database.Database.DB.Find(&posts)
-	responsePosts := []Post{}
+	responsePosts := []PostResponse{}
 
 	for _, post := range posts {
 		responsePost := CreateResponsePost(post)
@@ -46,8 +58,8 @@ func GetAllPosts(c *fiber.Ctx) error {
 }
 
 func FindPost(id int, post *models.Post) error {
-	database.Database.DB.Find(&post, "id = ?", id)
-	if post.ID == 0 {
+	database.Database.DB.Find(&post, "post_id = ?", id)
+	if post.PostID == 0 {
 		return errors.New("Post does not exist.")
 	}
 	return nil
@@ -81,18 +93,14 @@ func UpdatePost(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 	type UpdatePost struct {
-		PostCategory string `json:"PostCategory"`
-		PostTitle    string `json:"PostTitle"`
-		PostBody     string `json:"PostBody"`
+		Content string `json:"content"`
 	}
 	var updateData UpdatePost
 
 	if err := c.BodyParser(&updateData); err != nil {
 		return c.Status(500).JSON(err.Error())
 	}
-	post.PostCategory = updateData.PostCategory
-	post.PostTitle = updateData.PostTitle
-	post.PostBody = updateData.PostBody
+	post.Content = updateData.Content
 
 	database.Database.DB.Save(&post)
 

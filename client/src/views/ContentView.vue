@@ -1,48 +1,74 @@
 <template>
-  <PostView></PostView>
-    <v-container>
-      <v-row align="center" justify="center">
-        <v-col cols="12">
-        <!--
-        v-for="(variant, i) in variants"
-        :key="i"
-        -->
-      <v-card
-          class="mx-auto"
-          max-width="auto"
-          variant="elevated"
-      >
-        <v-card-item>
-          <div>
-            <div class="text-overline mb-1">@yigitataben</div>
-            <div class="text-h6 mb-1">General Discussion & Helping</div>
-            <div class="text-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Quisque eu lacus non sem auctor tristique eget eget orci. In et eros tellus.
-              Integer pharetra dolor ac velit ornare lacinia sed non lectus.
-              Maecenas molestie eget nisl eget viverra. Donec eu elit bibendum, lobortis quam sed, lobortis leo.
-              Nulla at augue ultrices, pretium magna vel, aliquam enim. Praesent dui nisl, ultricies ac justo sed, congue condimentum dui.
-              Suspendisse nibh eros, cursus vitae nunc ac, blandit egestas nibh. Aliquam et blandit metus.
-              Sed mollis tellus id nisl lobortis porta. Nunc ipsum magna, molestie ut tortor quis, aliquet rhoncus libero.
-              Curabitur fringilla at erat id dapibus. In bibendum velit ac tortor porttitor gravida sed in eros.
-              Nulla facilisi. Integer condimentum ante ligula, at dignissim turpis iaculis sit amet. In non felis et mauris ultrices mattis.</div>
-            <div class="text-overline mb-1">27/10/2023 18:00:50</div>
-          </div>
-        </v-card-item>
+  <div>
+    <PostView></PostView>
+    <v-container fluid>
+      <v-sheet v-scroll-y="onScroll" style="max-height: 400px; overflow-y: auto;">
+        <v-col v-for="(post, index) in posts" :key="index">
+          <v-card class="mx-auto" max-width="auto" variant="elevated">
+            <v-card-item>
+              <div>
+                <div class="text-overline mb-1">In <v-btn outlined rounded elevation="0" size="x-small" color="light-blue lighten-5">@{{ post.user_name }}</v-btn> 's opinion:</div>
+                <div class="text-h6 mb-1">{{ post.category_name }}</div>
+                <div class="text-caption">{{ post.content }}</div>
+                <div class="text-overline mb-1">{{ formatDate(post.created_at) }}</div>
+              </div>
+            </v-card-item>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            <v-btn density="default" icon="mdi-comment" size="32" color="light-blue lighten-5"></v-btn>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn density="default" icon="mdi-bookmark" size="32" color="light-blue lighten-5"></v-btn>
-          </v-col>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
-</v-container>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-col cols="auto">
+                <v-btn density="default" icon="mdi-comment" size="32" color="light-blue lighten-5"></v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn density="default" icon="mdi-bookmark" size="32" color="light-blue lighten-5"></v-btn>
+              </v-col>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-sheet>
+    </v-container>
+  </div>
 </template>
+
 <script setup>
 import PostView from "@/views/PostView.vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const posts = ref([]);
+
+const fetchDataFromDatabase = async () => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8080/post");
+    posts.value = response.data;
+  } catch (error) {
+    console.error("Error fetching data from the database:", error);
+  }
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return "Invalid Date";
+
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) return "Invalid Date";
+
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric"
+  };
+
+  return date.toLocaleDateString('en-US', options);
+};
+
+onMounted(() => {
+  fetchDataFromDatabase().then(() => {
+    posts.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  });
+});
+
 </script>

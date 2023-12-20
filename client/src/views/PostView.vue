@@ -9,6 +9,7 @@
       <v-autocomplete
           chips
           ref="category"
+          placeholder="Please select a category..."
           v-model="category"
           :rules="[() => !!category]"
           :items="categories"
@@ -19,6 +20,7 @@
 
       <v-textarea
           variant="outlined"
+          placeholder="Please fill this area..."
           auto-grow
           full-width
           rows="1"
@@ -89,61 +91,67 @@
 import axios from "axios";
 
 export default {
-  data: () => ({
-    categories: [ 'General Discussion and Helping',
-      'Artificial Intelligence Ethics and Law',
-      'Business and Technology',
-      'Cloud Technologies',
-      'Data Science and Artificial Intelligence',
-      'Data-Driven Applications',
-      'Database Management',
-      'DevOps and Continuous Integration/Continuous Deployment (CI/CD)',
-      'Education and Learning',
-      'Hardware and Electronics',
-      'Internet and Network Technologies',
-      'Internet of Things (IoT)',
-      'Programming Languages',
-      'Robotics and Automation',
-      'Security and Hacking',
-      'Software Development',
-      'Technology News and Trends',
-      'VR/AR and Augmented Reality (AR/VR/XR)',
-      'Web Development',
-      'Mobile Application Development' ],
-    errorMessages: '',
-    post: null,
-    category: null,
-    formHasErrors: false,
-  }),
+  data() {
+    return {
+      categories: [],
+      errorMessages: '',
+      post: null,
+      category: null,
+      formHasErrors: false,
+    };
+  },
 
   computed: {
-    form () {
+    form() {
       return {
         post: this.post,
         category: this.category,
-      }
+      };
     },
   },
+
+  async created() {
+    await this.fetchCategories();
+  },
+
   methods: {
-    postCheck () {
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8080/categories');
+        this.categories = response.data.map(category => category.category_name);
+      } catch (error) {
+        console.error('An error occurred while fetching the categories.', error);
+      }
+    },
+
+    postCheck() {
       this.errorMessages = this.post
-          ? `Hey! I'm required...`
-          : ''
+          ? (this.category ? '' : 'Hey! Select a category...')
+          : 'Hey! Post is required...';
 
-      return true
+      return this.post && this.category;
     },
-    resetForm () {
-      this.errorMessages = []
-      this.formHasErrors = false
 
-      Object.keys(this.form).forEach(f => {
-        this.$refs[f].reset()
-      })
+    resetForm() {
+      this.errorMessages = '';
+      this.formHasErrors = false;
+
+      if (this.$refs.post) {
+        this.$refs.post.reset();
+      }
+      if (this.$refs.category) {
+        this.$refs.category.reset();
+        this.category = null;
+      }
     },
+
+
     async share() {
       const formData = {
-        PostBody: this.post,
-        PostCategory: this.category
+        content: this.post,
+        category_name: this.category,
+        user_name: "yigitataben",
+        created_at: this.created_at,
       };
 
       try {
@@ -151,11 +159,12 @@ export default {
         console.log('Data sent successfully.', response.data);
 
         this.resetForm();
+        window.location.reload();
       } catch (error) {
         console.error('Data sending error.', error);
         this.formHasErrors = true;
       }
-    }
-  }
+    },
+  },
 }
 </script>
