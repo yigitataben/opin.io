@@ -43,7 +43,7 @@
           fixed
           icon
           size="32"
-          @click="openPage(3)"
+          @click="openPage(4)"
       >
         <v-avatar size="32">
           <v-img
@@ -122,8 +122,9 @@ export default {
       items: [
         {text: 'Home', icon: 'mdi-home', url: '/'},
         {text: 'Explore', icon: 'mdi-pound-box', url: '/explore'},
+        {text: 'Bookmarks', icon: 'mdi-bookmark', url: '/bookmarks'},
         {text: 'Comments', icon: 'mdi-comment', url: '/comments'},
-        {text: 'Profile', icon: 'mdi-account', url: '/profile'}
+        {text: 'Profile', icon: 'mdi-account', url: '/profile'},
       ],
     }
   },

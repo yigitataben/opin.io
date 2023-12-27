@@ -145,12 +145,11 @@ export default {
       }
     },
 
-
     async share() {
       const formData = {
         content: this.post,
         category_name: this.category,
-        user_name: "yigitataben",
+        user_name: this.user_name,
         created_at: this.created_at,
       };
 

@@ -2,11 +2,12 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import BookmarksView from "@/views/BookmarksView.vue";
 import ExploreView from "@/views/ExploreView.vue";
-import LoginView from "@/views/LoginView.vue";
+import LoginView from "@/views/template/LoginView.vue";
 import PostView from "@/views/PostView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import ContentView from "@/views/ContentView.vue";
 import CommentsView from "@/views/CommentsView.vue";
+import SignupView from "@/views/template/SignupView.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     component: LoginView
   },
   {
+    path: '/signup',
+    name: 'signup',
+    component: SignupView
+  },
+  {
     path: '/post',
     name: 'post',
     component: PostView
@@ -49,9 +55,9 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-})
+});
 
-export default router
+export default router;
 
 /*
 component: () => import(/!* webpackChunkName: "about" *!/ '../views/BookmarksView.vue')

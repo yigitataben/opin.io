@@ -9,20 +9,24 @@ import (
 )
 
 type UserResponse struct {
-	ID        uint      `json:"id"`
-	UserName  string    `json:"user_name"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	CreatedAt time.Time `json:"created_at"`
+	ID           uint      `json:"id"`
+	UserName     string    `json:"user_name"`
+	FirstName    string    `json:"first_name"`
+	LastName     string    `json:"last_name"`
+	EmailAddress string    `json:"email_address"`
+	UserPassword string    `json:"user_password"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 func CreateResponseUser(userModel models.User) UserResponse {
 	return UserResponse{
-		ID:        userModel.UserID,
-		UserName:  userModel.UserName,
-		FirstName: userModel.FirstName,
-		LastName:  userModel.LastName,
-		CreatedAt: userModel.CreatedAt,
+		ID:           userModel.UserID,
+		UserName:     userModel.UserName,
+		FirstName:    userModel.FirstName,
+		LastName:     userModel.LastName,
+		EmailAddress: userModel.EmailAddress,
+		UserPassword: userModel.UserPassword,
+		CreatedAt:    userModel.CreatedAt,
 	}
 }
 
@@ -42,7 +46,7 @@ func CreateUser(c *fiber.Ctx) error {
 func GetAllUsers(c *fiber.Ctx) error {
 	users := []models.User{}
 
-	database.Database.DB.Find(&users)
+	database.Database.DB.Order("created_at desc").Find(&users)
 	responseUsers := make([]UserResponse, len(users))
 
 	for i, user := range users {
@@ -88,9 +92,11 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 	type UpdateUser struct {
-		UserName  string `json:"user_name"`
-		FirstName string `json:"first_name"`
-		LastName  string `json:"last_name"`
+		UserName     string `json:"user_name"`
+		FirstName    string `json:"first_name"`
+		LastName     string `json:"last_name"`
+		EmailAddress string `json:"email_address"`
+		UserPassword string `json:"user_password"`
 	}
 	var updateData UpdateUser
 
@@ -100,6 +106,8 @@ func UpdateUser(c *fiber.Ctx) error {
 	user.UserName = updateData.UserName
 	user.FirstName = updateData.FirstName
 	user.LastName = updateData.LastName
+	user.EmailAddress = updateData.EmailAddress
+	user.UserPassword = updateData.UserPassword
 
 	database.Database.DB.Save(&user)
 

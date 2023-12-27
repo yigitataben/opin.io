@@ -1,17 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <HomeView />
+      <TemplateView />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HomeView from '@/views/template/TemplateView.vue';
+import TemplateView from "@/views/template/TemplateView.vue";
 
 export default {
   components: {
-    HomeView,
+    TemplateView,
   },
 };
 </script>

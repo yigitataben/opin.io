@@ -12,3 +12,5 @@ server:
 logging:
   level: error
   file_path: 'logs/application.log'
+
+

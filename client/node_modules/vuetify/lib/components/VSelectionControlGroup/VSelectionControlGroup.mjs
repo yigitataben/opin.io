@@ -33,7 +33,10 @@ export const makeSelectionControlGroupProps = propsFactory({
     default: null
   },
   name: String,
-  readonly: Boolean,
+  readonly: {
+    type: Boolean,
+    default: null
+  },
   modelValue: null,
   type: String,
   valueComparator: {
@@ -53,7 +56,7 @@ export const VSelectionControlGroup = genericComponent()({
   name: 'VSelectionControlGroup',
   props: makeVSelectionControlGroupProps(),
   emits: {
-    'update:modelValue': val => true
+    'update:modelValue': value => true
   },
   setup(props, _ref) {
     let {

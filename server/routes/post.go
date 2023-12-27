@@ -46,7 +46,7 @@ func CreatePost(c *fiber.Ctx) error {
 func GetAllPosts(c *fiber.Ctx) error {
 	posts := []models.Post{}
 
-	database.Database.DB.Find(&posts)
+	database.Database.DB.Order("created_at desc").Find(&posts)
 	responsePosts := []PostResponse{}
 
 	for _, post := range posts {
