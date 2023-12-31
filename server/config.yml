@@ -1,7 +1,7 @@
 # Database settings
 database:
   type: sqlite
-  file_path: 'C:\Users\yigit\OneDrive\Workspace\opin.io\server\OpinionDatabase.db'
+  file_path: 'C:\Users\yigit\Workspace\opin.io\server\OpinionDatabase.db'
 
 # Server settings
 server:
