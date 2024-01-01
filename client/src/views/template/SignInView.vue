@@ -59,9 +59,19 @@
 
       <v-card class="mb-12" color="surface-variant" variant="tonal"></v-card>
 
-      <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="signup">
+      <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="signIn">
         Sign Up
       </v-btn>
+
+      <v-card-text class="text-center">
+        <v-btn
+            variant="plain"
+            @click="redirectToLogIn"
+            color="blue"
+        >
+          Already have an account?
+        </v-btn>
+      </v-card-text>
     </v-card>
   </div>
 </template>
@@ -92,7 +102,10 @@ export default {
     user_password: '',
   }),
   methods: {
-    async signup() {
+    redirectToLogIn() {
+      this.$router.push('/log-in');
+    },
+    async signIn() {
       const userData = {
         user_name: this.user_name,
         first_name: this.first_name,
@@ -107,7 +120,7 @@ export default {
 
         if (data.success) {
           console.log("Successful registration!");
-          window.location.reload();
+          location.reload();
         } else {
           console.error("Registration failed:", data.message);
         }

@@ -1,64 +1,75 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-
+import {createRouter, createWebHashHistory} from 'vue-router';
 import BookmarksView from "@/views/BookmarksView.vue";
 import ExploreView from "@/views/ExploreView.vue";
-import LoginView from "@/views/template/LoginView.vue";
 import PostView from "@/views/PostView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import ContentView from "@/views/ContentView.vue";
 import CommentsView from "@/views/CommentsView.vue";
-import SignupView from "@/views/template/SignupView.vue";
+import TemplateView from "@/views/template/TemplateView.vue";
+import LoginView from "@/views/template/LogInView.vue";
+import SignupView from "@/views/template/SignInView.vue";
 
 const routes = [
+  // Auth Routes:
   {
     path: '/',
-    name: 'Content',
-    component: ContentView
+    redirect: '/log-in',
   },
   {
-    path: '/bookmarks',
-    name: 'bookmarks',
-    component: BookmarksView
+    path: '/log-in',
+    name: 'LogIn',
+    component: LoginView,
   },
   {
-    path: '/explore',
-    name: 'explore',
-    component: ExploreView
+    path: '/sign-in',
+    name: 'SignIn',
+    component: SignupView,
   },
+
+  // Dashboard Routes:
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: '/homepage',
+    name: 'Homepage',
+    component: TemplateView,
+    meta: {requiresAuth: true},
+    children: [
+      {
+        path: 'content',
+        name: 'Content',
+        component: ContentView,
+      },
+      {
+        path: 'bookmarks',
+        name: 'Bookmarks',
+        component: BookmarksView,
+      },
+      {
+        path: 'explore',
+        name: 'Explore',
+        component: ExploreView,
+      },
+      {
+        path: 'post',
+        name: 'Post',
+        component: PostView,
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: ProfileView,
+      },
+      {
+        path: 'comments',
+        name: 'Comments',
+        component: CommentsView,
+      },
+    ],
   },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignupView
-  },
-  {
-    path: '/post',
-    name: 'post',
-    component: PostView
-  },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: ProfileView
-  },
-  {
-    path: '/comments',
-    name: 'Comments',
-    component: CommentsView
-  }
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 });
 
 export default router;
-
-/*
-component: () => import(/!* webpackChunkName: "about" *!/ '../views/BookmarksView.vue')
-*/

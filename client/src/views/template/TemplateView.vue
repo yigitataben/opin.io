@@ -120,11 +120,11 @@ export default {
     return {
       selectedItem: null,
       items: [
-        {text: 'Home', icon: 'mdi-home', url: '/'},
-        {text: 'Explore', icon: 'mdi-pound-box', url: '/explore'},
-        {text: 'Bookmarks', icon: 'mdi-bookmark', url: '/bookmarks'},
-        {text: 'Comments', icon: 'mdi-comment', url: '/comments'},
-        {text: 'Profile', icon: 'mdi-account', url: '/profile'},
+        {text: 'Home', icon: 'mdi-home', url: 'content'},
+        {text: 'Explore', icon: 'mdi-pound-box', url: 'explore'},
+        {text: 'Bookmarks', icon: 'mdi-bookmark', url: 'bookmarks'},
+        {text: 'Comments', icon: 'mdi-comment', url: 'comments'},
+        {text: 'Profile', icon: 'mdi-account', url: 'profile'},
       ],
     }
   },
