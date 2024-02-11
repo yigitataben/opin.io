@@ -1,17 +1,36 @@
 <template>
   <div>
-    <v-img
-        class="mx-auto my-6"
-        max-width="228"
-    ></v-img>
+    <v-img class="mx-auto my-6" max-width="228"></v-img>
 
-    <v-card
-        class="mx-auto pa-12 pb-8"
-        elevation="8"
-        max-width="448"
-        rounded="lg"
-    >
-      <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+    <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
+      <div class="text-subtitle-1 text-medium-emphasis">Personal Informations</div>
+
+      <v-text-field
+          v-model="first_name"
+          :rules="[rules.required, rules.user_name]"
+          density="compact"
+          placeholder="First Name"
+          prepend-inner-icon="mdi-card-account-details-outline"
+          variant="outlined"
+      ></v-text-field>
+
+      <v-text-field
+          v-model="last_name"
+          :rules="[rules.required, rules.user_name]"
+          density="compact"
+          placeholder="Last Name"
+          prepend-inner-icon="mdi-card-account-details-outline"
+          variant="outlined"
+      ></v-text-field>
+
+      <v-text-field
+          v-model="user_name"
+          :rules="[rules.required, rules.user_name]"
+          density="compact"
+          placeholder="Username"
+          prepend-inner-icon="mdi-at"
+          variant="outlined"
+      ></v-text-field>
 
       <v-text-field
           v-model="email_address"
@@ -24,20 +43,12 @@
 
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
         Password
-
-        <a
-            class="text-caption text-decoration-none text-blue"
-            href="#"
-            rel="noopener noreferrer"
-            target="_blank"
-        >
-          Forgot login password?</a>
       </div>
 
       <v-text-field
           v-model="user_password"
-          :rules="[rules.user_password, rules.length(6)]"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :rules="[rules.user_password, rules.length(6)]"
           :type="visible ? 'text' : 'password'"
           density="compact"
           placeholder="Enter your password."
@@ -46,39 +57,25 @@
           @click:append-inner="visible = !visible"
       ></v-text-field>
 
-      <v-card
-          class="mb-12"
-          color="surface-variant"
-          variant="tonal"
-      >
-        <v-card-text class="text-medium-emphasis text-caption">
-          Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three hours. If you must login now, you can also click "Forgot login password?" below to reset the login password.
-        </v-card-text>
-      </v-card>
+      <v-card class="mb-12" color="surface-variant" variant="tonal"></v-card>
 
-      <v-btn
-          block
-          class="mb-8"
-          color="blue"
-          size="large"
-          variant="tonal"
-          @click="logIn"
-      >
-        Log In
+      <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="signIn">
+        Sign Up
       </v-btn>
 
       <v-card-text class="text-center">
         <v-btn
-            variant="plain"
-            @click="redirectToSignIn"
             color="blue"
+            variant="plain"
+            @click="redirectToLogIn"
         >
-          Sign in now!
+          Already have an account?
         </v-btn>
       </v-card-text>
     </v-card>
   </div>
 </template>
+
 <script>
 
 import axios from "axios";
@@ -99,22 +96,26 @@ export default {
           !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
           'Password must contain an upper case letter, a numeric character, and a special character',
     },
+    first_name: '',
+    last_name: '',
     user_name: '',
     user_password: '',
   }),
   methods: {
-    redirectToSignIn() {
-      this.$router.push('/sign-in');
+    redirectToLogIn() {
+      this.$router.push('/log-in');
     },
-    async logIn() {
+    async signIn() {
       const userData = {
         user_name: this.user_name,
+        first_name: this.first_name,
+        last_name: this.last_name,
         email_address: this.email_address,
         user_password: this.user_password,
       };
 
       try {
-        const response = await axios.get('http://127.0.0.1:8080/user', userData);
+        const response = await axios.post('http://127.0.0.1:8080/user', userData);
         const data = response.data;
 
         if (data.success) {

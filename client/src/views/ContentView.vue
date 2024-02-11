@@ -7,7 +7,13 @@
           <v-card class="mx-auto" max-width="auto" variant="elevated">
             <v-card-item>
               <div>
-                <div class="text-overline mb-1">In <v-btn outlined rounded elevation="0" size="x-small" color="light-blue lighten-5">@{{ post.user_name }}</v-btn> 's opinion:</div>
+                <div class="text-overline mb-1">In
+                  <v-btn color="light-blue lighten-5" elevation="0" outlined rounded size="x-small">@{{
+                      post.user_name
+                    }}
+                  </v-btn>
+                  's opinion:
+                </div>
                 <div class="text-h6 mb-1">{{ post.category_name }}</div>
                 <div class="text-caption">{{ post.content }}</div>
                 <div class="text-overline mb-1">{{ formatDate(post.created_at) }}</div>
@@ -17,10 +23,10 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-col cols="auto">
-                <v-btn density="default" icon="mdi-comment" size="32" color="light-blue lighten-5"></v-btn>
+                <v-btn color="light-blue lighten-5" density="default" icon="mdi-comment" size="32"></v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn density="default" icon="mdi-bookmark" size="32" color="light-blue lighten-5"></v-btn>
+                <v-btn color="light-blue lighten-5" density="default" icon="mdi-bookmark" size="32"></v-btn>
               </v-col>
             </v-card-actions>
           </v-card>
@@ -32,7 +38,7 @@
 
 <script setup>
 import PostView from "@/views/PostView.vue";
-import { ref, onMounted } from "vue";
+import {onMounted, ref} from "vue";
 import axios from "axios";
 
 const posts = ref([]);

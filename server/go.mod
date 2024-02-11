@@ -3,6 +3,7 @@ module server
 go 1.21.4
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/spf13/viper v1.17.0
 	gorm.io/driver/sqlite v1.5.4

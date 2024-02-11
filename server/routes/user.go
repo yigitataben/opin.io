@@ -2,9 +2,11 @@ package routes
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"server/database"
 	"server/models"
+	"server/session"
 	"time"
 )
 
@@ -131,4 +133,48 @@ func DeleteUser(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).SendString("User successfully deleted.")
+}
+
+func LoginUser(c *fiber.Ctx) error {
+	var loginData struct {
+		EmailAddress string `json:"email_address"`
+		UserPassword string `json:"user_password"`
+	}
+
+	if err := c.BodyParser(&loginData); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	var user models.User
+	result := database.Database.DB.Where("email_address = ?", loginData.EmailAddress).First(&user)
+
+	if result.Error != nil {
+		return c.Status(401).JSON(fiber.Map{"success": false, "message": "Invalid email or password"})
+	}
+
+	if user.UserPassword != loginData.UserPassword {
+		return c.Status(401).JSON(fiber.Map{"success": false, "message": "Invalid email or password"})
+	}
+
+	userIDStr := fmt.Sprintf("%d", user.UserID)
+	token, err := session.GenerateToken(userIDStr)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	c.Cookie(&fiber.Cookie{
+		Name:  "jwt",
+		Value: token,
+	})
+
+	return c.Status(200).JSON(fiber.Map{"success": true, "message": "Login successful"})
+}
+
+func LogoutUser(c *fiber.Ctx) error {
+	c.Cookie(&fiber.Cookie{
+		Name:  "jwt",
+		Value: "",
+	})
+
+	return c.SendString("Logout successful")
 }

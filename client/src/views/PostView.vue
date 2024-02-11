@@ -1,43 +1,43 @@
 <template>
   <v-card
-      max-width="550"
       class="mx-auto"
-      variant="flat"
+      max-width="550"
       rounded="xl"
+      variant="flat"
   >
     <v-sheet class="pa-4 text-center">
       <v-autocomplete
-          chips
           ref="category"
-          placeholder="Please select a category..."
           v-model="category"
-          :rules="[() => !!category]"
           :items="categories"
+          :rules="[() => !!category || 'Please select a category...']"
+          chips
+          placeholder="Please select a category..."
           required
-          variant="outlined"
           rounded="xl"
+          variant="outlined"
       ></v-autocomplete>
 
       <v-textarea
-          variant="outlined"
-          placeholder="Please fill this area..."
-          auto-grow
-          full-width
-          rows="1"
-          hide-details
-          rounded="xl"
           ref="post"
           v-model="post"
-          :rules="[() => !!post, postCheck]"
+          :rules="[() => !!post || 'Please fill this area...', postCheck]"
+          auto-grow
+          full-width
+          hide-details
+          placeholder="Please fill this area..."
           required
+          rounded="xl"
+          rows="1"
+          variant="outlined"
       ></v-textarea>
     </v-sheet>
 
     <div class="d-flex justify-space-between pa-4 pb-0">
       <v-btn-toggle
-          variant="outlined"
           divided="true"
           rounded="xl"
+          variant="outlined"
       >
         <v-btn>
           <v-icon icon="mdi-image"></v-icon>
@@ -53,11 +53,11 @@
       </v-btn-toggle>
 
       <v-btn-toggle
-          multiple="true"
-          variant="outlined"
           divided="true"
-          rounded="xl"
           justify="center"
+          multiple="true"
+          rounded="xl"
+          variant="outlined"
       >
         <v-btn>
           <v-icon icon="mdi-format-italic"></v-icon>
@@ -73,10 +73,10 @@
       </v-btn-toggle>
 
       <v-btn-toggle
-          variant="outlined"
-          rounded="xl"
-          justify="center"
           color="success"
+          justify="center"
+          rounded="xl"
+          variant="outlined"
           @click="share"
       >
         <v-btn>

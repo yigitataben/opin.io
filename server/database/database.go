@@ -5,7 +5,6 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
-	"os"
 	"server/config"
 	"server/models"
 )
@@ -16,17 +15,15 @@ type DBInstance struct {
 
 var Database DBInstance
 
-func ConnectDB() {
+func ConnectDB() error {
 	configData, err := config.LoadConfigData()
 	if err != nil {
-		log.Fatal("Failed to load config data! \n", err.Error())
-		os.Exit(2)
+		return err
 	}
 
 	db, err := gorm.Open(sqlite.Open(configData.Database.FilePath), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to the database! \n", err.Error())
-		os.Exit(2)
+		return err
 	}
 
 	log.Println("Connected to the database successfully!")
@@ -35,9 +32,9 @@ func ConnectDB() {
 	// TODO: Add migrations.
 	err = db.AutoMigrate(&models.User{}, &models.Post{}, &models.Category{})
 	if err != nil {
-		log.Fatal("Failed to run migrations! \n", err.Error())
-		os.Exit(2)
+		return err
 	}
 
 	Database = DBInstance{DB: db}
+	return nil
 }

@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <v-app-bar
         class="px-3"
-        density="compact"
         color="light-blue lighten-5"
+        density="compact"
         flat="true"
     >
       <v-btn
@@ -26,6 +26,7 @@
           max-width="300"
       >
         <v-text-field
+            append-inner-icon="mdi-card-search"
             density="compact"
             flat="true"
             hide-details
@@ -33,7 +34,6 @@
             rounded="lg"
             single-line
             variant="solo-filled"
-            append-inner-icon="mdi-card-search"
         ></v-text-field>
       </v-responsive>
 
@@ -61,21 +61,21 @@
               md="2"
           >
             <v-sheet
-                rounded="lg"
                 min-height="268"
+                rounded="lg"
             >
               <v-list dense rounded="lg">
                 <v-list-item
-                    v-model="selectedItem"
                     v-for="(item, index) in items"
                     :key="index"
+                    v-model="selectedItem"
                     @click="openPage(index)"
                 >
                   <template v-slot:prepend>
-                    <v-icon>{{item.icon}}</v-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
                   </template>
 
-                  <v-list-item-title>{{item.text}}</v-list-item-title>
+                  <v-list-item-title>{{ item.text }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-sheet>
@@ -98,10 +98,12 @@
               md="2"
           >
             <v-sheet
-                rounded="lg"
                 min-height="268"
+                rounded="lg"
             >
-              <router-view><BookmarksView></BookmarksView></router-view>
+              <router-view>
+                <BookmarksView></BookmarksView>
+              </router-view>
             </v-sheet>
           </v-col>
         </v-row>
@@ -116,7 +118,7 @@ import BookmarksView from "@/views/BookmarksView.vue";
 
 export default {
   components: {BookmarksView},
-  data () {
+  data() {
     return {
       selectedItem: null,
       items: [
