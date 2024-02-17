@@ -6,11 +6,9 @@ database:
 # Server settings
 server:
   port: 8080
-  base_url: 'http://localhost'
+  base_url: 'http://127.0.0.1'
 
 # Logging settings
 logging:
   level: error
   file_path: 'logs/application.log'
-
-

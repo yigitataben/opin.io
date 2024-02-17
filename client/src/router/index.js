@@ -6,8 +6,8 @@ import ProfileView from "@/views/ProfileView.vue";
 import ContentView from "@/views/ContentView.vue";
 import CommentsView from "@/views/CommentsView.vue";
 import TemplateView from "@/views/template/TemplateView.vue";
-import LoginView from "@/views/authentication/LogInView.vue";
-import SignupView from "@/views/authentication/SignInView.vue";
+import LoginView from "@/views/auth/LogInView.vue";
+import SignupView from "@/views/auth/SignInView.vue";
 
 const routes = [
   // Auth Routes:

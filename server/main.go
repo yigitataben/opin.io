@@ -9,20 +9,15 @@ import (
 	"server/config"
 	"server/database"
 	"server/routes"
-	"server/session"
 )
 
 func setupRoutes(app *fiber.App) {
-	app.Use(authMiddleware)
-
 	// User endpoints:
 	app.Post("/user", routes.CreateUser)
 	app.Get("/user", routes.GetAllUsers)
 	app.Get("/user/:id", routes.GetUserByID)
 	app.Put("/user/:id", routes.UpdateUser)
 	app.Delete("/user/:id", routes.DeleteUser)
-	app.Post("/log-in", routes.LoginUser)
-	app.Post("/log-out", routes.LogoutUser)
 
 	// Post endpoints:
 	app.Post("/post", routes.CreatePost)
@@ -34,25 +29,7 @@ func setupRoutes(app *fiber.App) {
 	// Post categories:
 	app.Get("/categories", routes.GetCategories)
 	app.Post("/categories", routes.CreateCategory)
-}
-
-func authMiddleware(c *fiber.Ctx) error {
-	tokenString := c.Cookies("jwt")
-
-	if tokenString == "" {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Missing JWT token",
-		})
-	}
-
-	_, err := session.VerifyToken(tokenString)
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid JWT token",
-		})
-	}
-
-	return c.Next()
+	app.Post("/log-in", routes.LoginUser)
 }
 
 func main() {
@@ -70,6 +47,7 @@ func main() {
 		AllowOrigins:     "*",
 		AllowCredentials: true,
 		AllowMethods:     "GET, POST, PUT, DELETE",
+		AllowHeaders:     "Content-Type",
 	}))
 
 	setupRoutes(app)
