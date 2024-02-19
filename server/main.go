@@ -26,10 +26,13 @@ func setupRoutes(app *fiber.App) {
 	app.Put("/post/:id", routes.UpdatePost)
 	app.Delete("/post/:id", routes.DeletePost)
 
-	// Post categories:
+	// Category endpoints::
 	app.Get("/categories", routes.GetCategories)
 	app.Post("/categories", routes.CreateCategory)
-	app.Post("/log-in", routes.LoginUser)
+
+	// Authorization endpoints:
+	app.Post("/signup", routes.LoginUser)
+	app.Post("/login", routes.LoginUser)
 }
 
 func main() {

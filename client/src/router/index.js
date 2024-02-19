@@ -6,23 +6,23 @@ import ProfileView from "@/views/ProfileView.vue";
 import ContentView from "@/views/ContentView.vue";
 import CommentsView from "@/views/CommentsView.vue";
 import TemplateView from "@/views/template/TemplateView.vue";
-import LoginView from "@/views/auth/LogInView.vue";
-import SignupView from "@/views/auth/SignInView.vue";
+import LoginView from "@/views/auth/LoginView.vue";
+import SignupView from "@/views/auth/SignupView.vue";
 
 const routes = [
   // Auth Routes:
   {
     path: '/',
-    redirect: '/log-in',
+    redirect: '/login',
   },
   {
-    path: '/log-in',
-    name: 'LogIn',
+    path: '/login',
+    name: 'Login',
     component: LoginView,
   },
   {
-    path: '/sign-in',
-    name: 'SignIn',
+    path: '/signup',
+    name: 'Signup',
     component: SignupView,
   },
 

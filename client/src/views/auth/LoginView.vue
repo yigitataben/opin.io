@@ -116,7 +116,7 @@ export default {
       };
 
       try {
-        const response = await axios.post('http://127.0.0.1:8080/log-in', userData);
+        const response = await axios.post('http://127.0.0.1:8080/login', userData);
         const data = response.data;
 
         if (data.success) {
