@@ -14,8 +14,8 @@
       <div class="text-subtitle-1 text-medium-emphasis">Account</div>
 
       <v-text-field
-          v-model="email_address"
-          :rules="[rules.required, rules.email_address]"
+          v-model="email"
+          :rules="[rules.required, rules.email]"
           density="compact"
           placeholder="E-mail Address"
           prepend-inner-icon="mdi-email-outline"
@@ -36,9 +36,9 @@
       </div>
 
       <v-text-field
-          v-model="user_password"
+          v-model="password"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :rules="[rules.user_password, rules.length(6)]"
+          :rules="[rules.password, rules.length(6)]"
           :type="visible ? 'text' : 'password'"
           density="compact"
           placeholder="Enter your password."
@@ -88,35 +88,35 @@ import axios from "axios";
 export default {
   data: () => ({
     visible: false,
-    email_address: '',
+    email: '',
     rules: {
       required: value => !!value || 'Required.',
-      email_address: value => {
+      email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return pattern.test(value) || 'Invalid e-mail.'
       },
       length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
-      user_password: v =>
+      password: v =>
           !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|\W)).+$/) ||
           'Password must contain an upper case letter, a numeric character, and a special character',
     },
-    user_password: '',
+    password: '',
   }),
   methods: {
     redirectToSignIn() {
-      this.$router.push('/sign-in');
+      this.$router.push('/signup');
     },
     redirectToHomePage() {
       this.$router.push('/homepage/content');
     },
     async logIn() {
       const userData = {
-        email_address: this.email_address,
-        user_password: this.user_password,
+        email: this.email,
+        password: this.password,
       };
 
       try {
-        const response = await axios.post('http://127.0.0.1:8080/login', userData);
+        const response = await axios.post('http://127.0.0.1:3000/login', userData);
         const data = response.data;
 
         if (data.success) {

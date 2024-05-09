@@ -1,62 +1,61 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/spf13/viper"
-	"log"
-	"server/config"
-	"server/database"
-	"server/routes"
+	"github.com/gin-gonic/gin"
+	"github.com/yigitataben/go-jwt/controllers"
+	"github.com/yigitataben/go-jwt/initializers"
+	"github.com/yigitataben/go-jwt/middleware"
 )
 
-func setupRoutes(app *fiber.App) {
-	// User endpoints:
-	app.Post("/user", routes.CreateUser)
-	app.Get("/user", routes.GetAllUsers)
-	app.Get("/user/:id", routes.GetUserByID)
-	app.Put("/user/:id", routes.UpdateUser)
-	app.Delete("/user/:id", routes.DeleteUser)
-
-	// Post endpoints:
-	app.Post("/post", routes.CreatePost)
-	app.Get("/post", routes.GetAllPosts)
-	app.Get("/post/:id", routes.GetPostByID)
-	app.Put("/post/:id", routes.UpdatePost)
-	app.Delete("/post/:id", routes.DeletePost)
-
-	// Category endpoints::
-	app.Get("/categories", routes.GetCategories)
-	app.Post("/categories", routes.CreateCategory)
-
-	// Authorization endpoints:
-	app.Post("/signup", routes.LoginUser)
-	app.Post("/login", routes.LoginUser)
+func init() {
+	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
+	initializers.SyncDB()
 }
 
 func main() {
-	if _, err := config.LoadConfigData(); err != nil {
-		log.Fatalf("Failed to load configuration data: %s", err)
-	}
+	r := gin.Default()
 
-	if err := database.ConnectDB(); err != nil {
-		log.Fatalf("Failed to connect to the database: %s", err)
-	}
+	// CORS middleware
+	r.Use(CORSMiddleware())
 
-	app := fiber.New()
+	// Authorization endpoints:
+	r.GET("/validate", middleware.RequireAuth, controllers.Validate)
+	r.POST("/signup", controllers.SignUp)
+	r.POST("/login", controllers.Login)
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
-		AllowCredentials: true,
-		AllowMethods:     "GET, POST, PUT, DELETE",
-		AllowHeaders:     "Content-Type",
-	}))
+	// User endpoints:
+	r.GET("/user", controllers.GetAllUsers)
+	r.GET("/user/:id", controllers.GetUserByID)
+	r.PUT("/user/:id", controllers.UpdateUser)
+	r.DELETE("/user/:id", controllers.DeleteUser)
 
-	setupRoutes(app)
+	// Category endpoints:
+	r.POST("/categories", controllers.CreateCategories)
+	r.GET("/categories", controllers.GetAllCategories)
 
-	port := viper.GetInt("server.port")
-	if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
-		log.Fatalf("Failed to start the server: %s", err)
+	// Post endpoints:
+	r.POST("/post", controllers.CreatePost)
+	r.GET("/post", controllers.GetAllPosts)
+	r.GET("/post/:id", controllers.GetPostByID)
+	r.PUT("/post/:id", controllers.UpdatePost)
+	r.DELETE("/post/:id", controllers.DeletePost)
+
+	r.Run()
+}
+
+// CORSMiddleware adds the necessary CORS headers to the response.
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+			return
+		}
+
+		c.Next()
 	}
 }
